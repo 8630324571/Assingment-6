@@ -1,0 +1,54 @@
+/*Develop a C# program using connected architecture to 
+ * insert a new student record into Student table.*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Runtime.InteropServices;
+
+namespace ADO.NET_Lab_Assignment
+{
+    internal class Q2_ConnectedArch
+    {
+        static void run()
+        {
+            string connectionString = @"Data Source=DESKTOP-5B22L13\SQLEXPRESS01;Initial Catalog=StudentDB;Integrated Security=True";
+            Console.WriteLine("Enter the Name : ");
+            string name = Console.ReadLine();
+
+            Console.WriteLine("Enter Age: ");
+            int age = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Enter Course: ");
+            string course = Console.ReadLine();
+
+            Console.WriteLine("Enter City: ");
+            string city = Console.ReadLine();
+
+
+            string query = "Insert into Student(Name , Age ,Course, City)" +
+                "values(@Name, @Age, @Course, @City)";
+
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            cmd.Parameters.AddWithValue("@Name", name);
+            cmd.Parameters.AddWithValue("@Age", age);
+            cmd.Parameters.AddWithValue("@Course", course);
+            cmd.Parameters.AddWithValue("@City", city);
+
+            con.Open();
+
+            int rows = cmd.ExecuteNonQuery();
+            Console.WriteLine(rows +"Student record inserted SUccessfully!");
+
+            con.Close();
+
+            Console.ReadLine();
+
+
+        }
+    }
+}
